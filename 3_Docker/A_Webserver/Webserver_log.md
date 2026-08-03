@@ -75,3 +75,89 @@ singainnn6931@c4r2s5 1_Setting % docker ps
 CONTAINER ID   IMAGE             COMMAND                   CREATED         STATUS          PORTS                                     NAMES
 d7f93c1f8742   webserver-image   "/docker-entrypoint.…"   9 seconds ago   Up 10 seconds   0.0.0.0:8088->80/tcp, [::]:8088->80/tcp   webserver
 ```
+
+## 컨테이너 실행 (Volume 마운트)
+
+생성한 Docker 이미지를 기반으로 컨테이너를 실행하고, **Named Volume**을 마운트하여 웹 콘텐츠의 영속성을 확인합니다.
+
+### 실행 명령어
+
+```bash
+docker run -d --name webserver -p 8088:80 -v webserver-volume:/usr/share/nginx/html webserver-image
+```
+
+### 구성 요소
+
+| 항목 | 설명 |
+|------|------|
+| `docker run` | Docker 이미지를 기반으로 새로운 컨테이너를 생성하고 실행합니다. |
+| `-d` | 컨테이너를 백그라운드(Detached Mode)에서 실행합니다. |
+| `--name webserver` | 컨테이너의 이름을 `webserver`로 지정합니다. |
+| `-p 8088:80` | 호스트(macOS)의 **8088번 포트**를 컨테이너의 **80번 포트**와 연결합니다. |
+| `-v webserver-volume:/usr/share/nginx/html` | `webserver-volume`이라는 **Named Volume**을 컨테이너의 `/usr/share/nginx/html` 디렉터리에 마운트합니다. |
+| `webserver-image` | 실행할 Docker 이미지의 이름입니다. |
+
+### 실행 결과 확인
+
+```bash
+docker ps
+```
+
+예시 출력
+
+```text
+CONTAINER ID   IMAGE             COMMAND                   STATUS         PORTS                                     NAMES
+d7f93c1f8742   webserver-image   "/docker-entrypoint.…"   Up 10 seconds  0.0.0.0:8088->80/tcp, [::]:8088->80/tcp   webserver
+```
+
+### 실행 결과 설명
+
+- `STATUS`가 **Up**이면 컨테이너가 정상적으로 실행 중인 상태입니다.
+- `PORTS`의 `8088->80`은 호스트의 **8088번 포트**가 컨테이너의 **80번 포트**와 연결되었음을 의미합니다.
+- `NAMES`에는 지정한 컨테이너 이름인 `webserver`가 표시됩니다.
+
+### Volume 마운트 구조
+
+```text
+Docker Engine
+│
+├── webserver (Container)
+│      │
+│      └── /usr/share/nginx/html
+│                │
+│                ▼
+└── webserver-volume (Named Volume)
+```
+
+컨테이너의 `/usr/share/nginx/html` 디렉터리는 `webserver-volume`과 연결되어 있습니다. 따라서 해당 경로에 생성하거나 수정한 파일은 컨테이너가 아닌 **Named Volume**에 저장됩니다.
+
+### Volume 연결 확인
+
+```bash
+docker inspect webserver
+```
+
+출력 결과의 `Mounts` 항목에서 다음과 같이 확인할 수 있습니다.
+
+```json
+"Mounts": [
+  {
+    "Type": "volume",
+    "Name": "webserver-volume",
+    "Destination": "/usr/share/nginx/html"
+  }
+]
+```
+
+이는 `webserver` 컨테이너가 `webserver-volume`을 `/usr/share/nginx/html`에 정상적으로 마운트하여 사용하고 있음을 의미합니다.
+
+
+
+## Volume과 Bind Mount 비교
+
+| 항목 | Volume | Bind Mount |
+|------|--------|------------|
+| **저장 위치** | Docker가 관리하는 저장소 | 호스트(macOS)의 지정한 폴더 |
+| **호스트에서 직접 확인** | macOS에서는 직접 확인 불가능 | 가능 (`ls`, `cat`, Finder 등) |
+| **Docker가 관리** | O | X |
+| **주 용도** | 데이터 영속성(Persistence), 운영 환경 | 개발 환경, 파일 공유 |
