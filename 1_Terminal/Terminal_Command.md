@@ -1,62 +1,62 @@
-# 터미널 명령어 리스트
+# 터미널 조작 기초
+### 터미널 명령어 리스트
 - [x] 현재 위치 확인
   - [x] pwd 
+
 - [x] 목록 확인(숨김 파일 포함)
   - [x] ls
-  - [x] -a 옵션
-  - [x] -l 옵션
+
 - [x] 이동
-  - [x] cd 
-  - [x] ~
-  - [x] -
-  - [x] /
-  - [x] ..
-  
+  - [x] cd
+
 - [x] 생성
   - [x] mkdir
   - [x] touch 
+
 - [x] 복사
   - [x] cp 
+
 - [x] 이동 / 이름 변경
   - [x] mv 
+
 - [x] 삭제
   - [x] rm 
+
 - [x] 파일 내용 확인
   - [x] cat
   - [x] head
   - [x] tail
   - [x] less
-- 빈 파일 생성
 
 ## 현재 위치 확인 명령어
-- 현재 작업 중인 디렉터리(폴더)의 전체 경로를 출력
+- 현재 작업 중인 디렉터리의 절대 경로를 출력한다.
 
-``` bash
+```bash
 pwd
 ```
 
 <details>
 <summary>실행 결과</summary>
 
-``` bash
+```bash
 singainnn6931@c4r2s5 1_Terminal % pwd
-/Users/singainnn6931/Codyssey/Basic/1_Setting/1_Terminal
+/Users/singainnn6931/1_Setting/1_Terminal
 ```
 </details>
 
 ## 목록 확인 명령어
-- 현재 디렉터리의 파일과 폴더를 확인
+- 현재 디렉터리에 있는 파일과 폴더 목록을 출력한다.
   - `-l` : 상세 정보 출력
   - `-a` : 숨김 파일(.으로 시작하는 파일)까지 출력
 
-``` bash
+```bash
 ls
 ```
 
 <details>
 <summary>실행 결과</summary>
 
-``` bash
+```bash
 singainnn6931@c4r2s5 1_Terminal % ls
 Terminal_Command.md
 
@@ -83,18 +83,18 @@ drwxr-xr-x  5 singainnn6931  singainnn6931   160 Aug  2 13:55 ..
   - `~` : 내 계정의 기본 홈 폴더로 이동
   - `-` : 이전 폴더로 돌아가기
 
-- 절대 경로: 최상위 디렉토리 기준
-- 상대 경로: 현재 파일의 위치를 기준
+- 절대 경로: 루트 디렉터리( `/` )부터 시작하는 전체 경로
+- 상대 경로: 현재 작업 중인 디렉터리를 기준으로 하는 경로
 
 
-``` bash
+```bash
 cd
 ```
 
 <details>
 <summary>실행 결과</summary>
 
-``` bash
+```bash
 singainnn6931@c4r2s5 1_Terminal % cd ..
 singainnn6931@c4r2s5 1_Setting % 
 
@@ -114,14 +114,14 @@ singainnn6931@c4r2s5 1_Terminal %
 ### 새로운 디렉토리 생성
 - mkdir : 새로운 디렉터리 생성
 
-``` bash
-mkdir 폴더 이름
+```bash
+mkdir 폴더명
 ```
 
 <details>
 <summary>실행 결과</summary>
 
-``` bash
+```bash
 singainnn6931@c4r2s5 1_Terminal % mkdir newDirectory
 singainnn6931@c4r2s5 1_Terminal % ls -l
 total 8
@@ -132,14 +132,14 @@ drwxr-xr-x  2 singainnn6931  singainnn6931   64 Jul 30 13:41 newDirectory
 
 
 ### 새로운 파일 생성
-- touch : 새로운 파일 생성
-``` bash
-touch 파일 이름
+- touch : 빈 파일을 생성하거나 기존 파일의 수정 시간을 변경한다.
+```bash
+touch 파일명
 ```
 <details>
 <summary>실행 결과</summary>
 
-``` bash
+```bash
 singainnn6931@c4r2s5 1_Terminal % touch newFile.txt
 singainnn6931@c4r2s5 1_Terminal % ls -l
 total 8
@@ -149,17 +149,17 @@ total 8
 </details>
 
 ## 복사 명령어 
-- 파일 또는 디렉터리를 복사
-- 디렉터리는 -r 옵션을 사용
+- 파일 또는 디렉터리를 다른 위치나 이름으로 복사한다.
+- 디렉터리는 `-r` 옵션을 사용.
 
-``` bash
+```bash
 cp 복사할_파일 파일_이름
 ``` 
 
 <details>
 <summary>실행 결과</summary>
 
-``` bash
+```bash
 singainnn6931@c4r2s5 1_Terminal % cp newFile.txt newFile1.txt
 singainnn6931@c4r2s5 1_Terminal % cp newDirectory newDirectory1
 cp: newDirectory is a directory (not copied).
@@ -175,12 +175,12 @@ qwer
 </details>
 
 ## 이동 / 이름 변경 (mv) 명령어
-- 파일이나 폴더의 위치를 변경하거나 이름을 변경
+- 파일이나 디렉터리의 위치를 이동하거나 이름을 변경한다.
 
 <details>
 <summary>실행 결과</summary>
 
-``` bash
+```bash
 singainnn6931@c4r2s5 1_Terminal % touch trash
 singainnn6931@c4r2s5 1_Terminal % ls 
 Terminal_Command.md	newDirectory		newFile.txt		trash
@@ -213,7 +213,7 @@ qwer	trash1
 <details>
 <summary>실행 결과</summary>
 
-``` bash
+```bash
 singainnn6931@c4r2s5 1_Terminal % ls
 Terminal_Command.md	newDirectory1		newFile.txt
 newDirectory		newDirectory2		newFile1.txt
@@ -241,14 +241,14 @@ Terminal_Command.md	newDirectory		newFile.txt
 ## 파일 내용 확인 명령어
 ### cat 명령어
 - 파일 전체 내용을 출력
-``` bash
+```bash
 cat file_name
 ```
 
 <details>
 <summary>실행 결과</summary>
 
-``` bash
+```bash
 singainnn6931@c4r2s5 1_Terminal % echo "hello world" > Test.txt 
 singainnn6931@c4r2s5 1_Terminal % cat Test.txt 
 hello world
@@ -262,8 +262,22 @@ hello world
 - 기본 10줄 출력
   - n옵션으로 개수 조절 가능
 
-``` bash
+```bash
 head 파일명
+```
+
+```bash
+singainnn6931@c4r2s5 1_Terminal % head long.txt 
+1
+2
+3
+4
+5
+6
+7
+8
+9
+10
 ```
 
 ### tail 명령어
@@ -271,13 +285,25 @@ head 파일명
 - 기본 10줄 출력
   - n옵션으로 개수 조절 가능
 - 로그 확인할 때 많이 사용
-  - `-f` 온션으로 실시간 확인 가능
+  - `-f` 옵션으로 실시간 확인 가능
 
-
-``` bash
+```bash
 tail 파일명
 ```
 
+```bash
+singainnn6931@c4r2s5 1_Terminal % tail long.txt
+191
+192
+193
+194
+195
+196
+197
+198
+199
+200
+```
 
 ```
 tail -f server.log
@@ -316,7 +342,34 @@ tail -f server.log
         ```
 
 ### less 명령어
-- 긴 파일을 페이지 단위로 출력
+- 긴 파일을 페이지 단위로 출력합니다.
+
+```bash
+1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+long.txt
+```
 
 |키|기능
 |------|---|
