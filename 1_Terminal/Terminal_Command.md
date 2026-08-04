@@ -1,5 +1,7 @@
 # 터미널 조작 기초
-### 터미널 명령어 리스트
+
+
+## 터미널 명령어 체크 리스트
 - [x] 현재 위치 확인
   - [x] pwd 
 
@@ -9,7 +11,7 @@
 - [x] 이동
   - [x] cd
 
-- [x] 생성
+- [x] 디렉토리 생성 및 빈 파일 생성
   - [x] mkdir
   - [x] touch 
 
@@ -21,6 +23,7 @@
 
 - [x] 삭제
   - [x] rm 
+  - [x] rmdir 
 
 - [x] 파일 내용 확인
   - [x] cat
@@ -28,8 +31,8 @@
   - [x] tail
   - [x] less
 
-## 현재 위치 확인 명령어
-- 현재 작업 중인 디렉터리의 절대 경로를 출력한다.
+## 현재 위치 확인 명령어 (pwd)
+- 현재 작업 디렉터리(Working Directory)의 절대 경로(Absolute Path)를 출력하는 명령어이다.
 
 ```bash
 pwd
@@ -39,57 +42,104 @@ pwd
 <summary>실행 결과</summary>
 
 ```bash
-singainnn6931@c4r2s5 1_Terminal % pwd
+singainnn6931@c4r2s5 1_Terminal % pwd 
 /Users/singainnn6931/1_Setting/1_Terminal
 ```
+
 </details>
 
-## 목록 확인 명령어
-- 현재 디렉터리에 있는 파일과 폴더 목록을 출력한다.
-  - `-l` : 상세 정보 출력
-  - `-a` : 숨김 파일(.으로 시작하는 파일)까지 출력
+## 목록 확인 명령어 (ls)
+- 현재 작업 디렉터리에 있는 파일과 디렉터리의 목록을 출력하는 명령어이다.
 
 ```bash
-ls
+ls [옵션] [파일 또는 디렉터리]
 ```
 
+- **파일 또는 디렉터리** : 목록을 확인할 대상이다. 생략하면 현재 작업 디렉터리를 대상으로 한다.
+
+### 주요 옵션
+
+
+| 옵션 | 설명 |
+| :--- | :--- |
+| `-l` | 파일 및 디렉터리의 권한, 소유자, 크기, 수정 시간 등을 **긴 형식(Long Format)**으로 출력한다. |
+| `-a` | `.`으로 시작하는 **숨김 파일 및 숨김 디렉터리**를 포함하여 출력한다. |
+| `-al` 또는 `-la` | `-a`와 `-l` 옵션을 함께 적용하여 **숨김 파일을 포함한 상세 정보**를 출력한다. |
+
+
 <details>
-<summary>실행 결과</summary>
+<summary>ls 실행 결과</summary>
 
 ```bash
 singainnn6931@c4r2s5 1_Terminal % ls
-Terminal_Command.md
-
-singainnn6931@c4r2s5 1_Terminal % ls -l
-total 8
--rw-r--r--  1 singainnn6931  singainnn6931  324 Jul 30 13:28 Terminal_Command.md
-
-singainnn6931@c4r2s5 1_Terminal % ls -a
-.			..			Terminal_Command.md
-
-singainnn6931@c4r2s5 1_Terminal % ls -al
-total 40
-drwxr-xr-x  6 singainnn6931  singainnn6931   192 Aug  2 14:20 .
-drwxr-xr-x  5 singainnn6931  singainnn6931   160 Aug  2 13:55 ..
--rw-r--r--  1 singainnn6931  singainnn6931  5058 Aug  2 14:31 Terminal_Command.md
+Korean_national_anthem.txt	Terminal_Command.md
+long.txt
 ```
+
 </details>
 
-## 이동 명령어
-- 원하는 디렉터리로 이동
-  - `폴더 이름` : 폴더 안의 하위 폴더로 이동
-  - `..` : 상위 디렉토리로 이동
-  - `/` : 루트 디렉토리로 이동
-  - `~` : 내 계정의 기본 홈 폴더로 이동
-  - `-` : 이전 폴더로 돌아가기
+<details>
+<summary>ls -l 실행 결과</summary>
 
-- 절대 경로: 루트 디렉터리( `/` )부터 시작하는 전체 경로
-- 상대 경로: 현재 작업 중인 디렉터리를 기준으로 하는 경로
+```bash
+singainnn6931@c4r2s5 1_Terminal % ls -l
+total 32
+-rw-r--r--  1 singainnn6931  singainnn6931   704  8  3 13:34 Korean_national_anthem.txt
+-rw-r--r--  1 singainnn6931  singainnn6931   692  8  3 13:34 long.txt
+-rw-r--r--  1 singainnn6931  singainnn6931  8160  8  5 03:19 Terminal_Command.md
+```
+
+</details>
+
+<details>
+<summary>ls -a 실행 결과</summary>
+
+```bash
+singainnn6931@c4r2s5 1_Terminal % ls -a
+.				long.txt
+..				Terminal_Command.md
+Korean_national_anthem.txt
+```
+
+</details>
+
+<details>
+<summary>ls -al 실행 결과</summary>
+
+```bash
+singainnn6931@c4r2s5 1_Terminal % ls -al
+total 40
+drwxr-xr-x   5 singainnn6931  singainnn6931   160  8  3 13:34 .
+drwxr-xr-x  10 singainnn6931  singainnn6931   320  8  4 19:22 ..
+-rw-r--r--   1 singainnn6931  singainnn6931   704  8  3 13:34 Korean_national_anthem.txt
+-rw-r--r--   1 singainnn6931  singainnn6931   692  8  3 13:34 long.txt
+-rw-r--r--   1 singainnn6931  singainnn6931  8488  8  5 03:25 Terminal_Command.md
+```
+
+</details>
+
+
+## 이동 명령어 (cd)
+- 현재 작업 디렉터리를 다른 디렉터리로 변경하는 명령어이다.
+- 절대 경로와 상대 경로를 모두 사용할 수 있으며, 다양한 경로를 이용해 원하는 디렉터리로 이동할 수 있다.
+  - 절대 경로: 루트 디렉터리( `/` )부터 시작하는 전체 경로
+  - 상대 경로: 현재 작업 중인 디렉터리를 기준으로 하는 경로
 
 
 ```bash
-cd
+cd [디렉터리]
 ```
+
+### 주요 사용 방법
+
+| 명령어 | 설명 |
+| :--- | :--- |
+| `cd 디렉터리명` | 지정한 디렉터리로 이동한다. |
+| `cd ..` | 상위 디렉터리로 이동한다. |
+| `cd /` | 루트 디렉터리로 이동한다. |
+| `cd ~` | 현재 사용자의 홈 디렉터리로 이동한다. |
+| `cd -` | 직전에 작업했던 디렉터리로 이동한다. |
+| `cd` | 홈 디렉터리로 이동한다. |
 
 <details>
 <summary>실행 결과</summary>
@@ -110,16 +160,25 @@ singainnn6931@c4r2s5 1_Terminal %
 ```
 </details>
 
-## 생성 명령어 (mkdir, touch)
-### 새로운 디렉토리 생성
-- mkdir : 새로운 디렉터리 생성
+## 생성 명령어
+
+
+### 새로운 디렉토리 생성 명령어 (`mkdir`)
+- 새로운 디렉터리(폴더)를 생성하는 명령어이다. 
 
 ```bash
-mkdir 폴더명
+mkdir [옵션] 디렉터리명
 ```
 
+### 주요 옵션
+
+| 옵션 | 설명 |
+| :--- | :--- |
+| `-p` | 필요한 상위 디렉터리를 함께 생성한다. |
+| `-v` | 생성된 디렉터리의 정보를 출력한다. |
+
 <details>
-<summary>실행 결과</summary>
+<summary>mkdir 실행 결과</summary>
 
 ```bash
 singainnn6931@c4r2s5 1_Terminal % mkdir newDirectory
@@ -131,13 +190,14 @@ drwxr-xr-x  2 singainnn6931  singainnn6931   64 Jul 30 13:41 newDirectory
 </details>
 
 
-### 새로운 파일 생성
-- touch : 빈 파일을 생성하거나 기존 파일의 수정 시간을 변경한다.
+### 새로운 파일 생성 명령어 (`touch`)
+- 새로운 빈 파일을 생성하며, 기존 파일이 존재하면 수정 시간을 갱신한다.
+
 ```bash
 touch 파일명
 ```
 <details>
-<summary>실행 결과</summary>
+<summary>touch 실행 결과</summary>
 
 ```bash
 singainnn6931@c4r2s5 1_Terminal % touch newFile.txt
@@ -146,18 +206,24 @@ total 8
 -rw-r--r--  1 singainnn6931  singainnn6931  932 Jul 30 13:37 Terminal_Command.md
 -rw-r--r--  1 singainnn6931  singainnn6931    0 Jul 30 13:41 newFile.txt
 ```
+
 </details>
 
-## 복사 명령어 
-- 파일 또는 디렉터리를 다른 위치나 이름으로 복사한다.
-- 디렉터리는 `-r` 옵션을 사용.
+## 복사 명령어 (cp)
+- 파일이나 디렉터리를 다른 위치로 복사하거나 새로운 이름으로 복사하는 명령어이다.
 
 ```bash
-cp 복사할_파일 파일_이름
-``` 
+cp [옵션] [원본] [대상]
+```
+
+### 주요 옵션
+
+| 옵션 | 설명 |
+| :--- | :--- |
+| `-r` | 디렉터리와 그 하위 파일 및 디렉터리를 재귀적으로 복사한다. |
 
 <details>
-<summary>실행 결과</summary>
+<summary>cp 실행 결과</summary>
 
 ```bash
 singainnn6931@c4r2s5 1_Terminal % cp newFile.txt newFile1.txt
@@ -172,13 +238,19 @@ singainnn6931@c4r2s5 1_Terminal % cd newDirectory2
 singainnn6931@c4r2s5 newDirectory2 % ls
 qwer
 ```
+
 </details>
 
 ## 이동 / 이름 변경 (mv) 명령어
-- 파일이나 디렉터리의 위치를 이동하거나 이름을 변경한다.
+- 파일이나 디렉터리를 다른 위치로 이동하거나 이름을 변경하는 명령어이다.
+- 같은 디렉터리에서 사용하면 이름이 변경되고, 다른 디렉터리를 대상으로 사용하면 해당 위치로 이동한다.
+
+```bash
+mv [원본] [대상]
+```
 
 <details>
-<summary>실행 결과</summary>
+<summary>mv 실행 결과</summary>
 
 ```bash
 singainnn6931@c4r2s5 1_Terminal % touch trash
@@ -203,12 +275,31 @@ qwer	trash1
 </details>
 
 ## 삭제 명령어
+
+
 ### rm 명령어
-- rm : 파일 삭제
+- 파일을 삭제하는 명령어이다.
   - `-r` : 디렉터리 삭제 옵션
 
+```bash
+rm [옵션] [파일 또는 디렉터리]
+rmdir [디렉터리]
+```
+
+### 주요 옵션
+
+| 명령어 | 옵션 | 설명 |
+| :--- | :--- | :--- |
+| `rm` | `-r` | 디렉터리와 내부의 파일 및 하위 디렉터리를 재귀적으로 삭제한다. |
+| `rm` | `-f` | 삭제 여부를 묻지 않고 강제로 삭제한다. |
+
+
 ### rmdir 명령어
-- rmdir : 비어 있는 디렉터리 삭제
+- 비어 있는 디렉터리만 삭제할 수 있는 명령어이다.
+
+```bash
+rmdir [디렉터리]
+```
 
 <details>
 <summary>실행 결과</summary>
@@ -218,7 +309,7 @@ singainnn6931@c4r2s5 1_Terminal % ls
 Terminal_Command.md	newDirectory1		newFile.txt
 newDirectory		newDirectory2		newFile1.txt
 
-# 파일 삭제지만 가능
+# 파일 삭제 (`-r` 옵션은 파일에도 사용할 수 있지만 불필요함)
 singainnn6931@c4r2s5 1_Terminal % rm -r newFile1.txt
 singainnn6931@c4r2s5 1_Terminal % ls
 Terminal_Command.md	newDirectory1		newFile.txt
@@ -236,35 +327,47 @@ singainnn6931@c4r2s5 1_Terminal % rm -r newDirectory2
 singainnn6931@c4r2s5 1_Terminal % ls
 Terminal_Command.md	newDirectory		newFile.txt
 ```
+
 </details>
 
 ## 파일 내용 확인 명령어
+
+
 ### cat 명령어
-- 파일 전체 내용을 출력
+- 파일의 전체 내용을 출력하는 명령어이다.
 ```bash
-cat file_name
+cat [파일명]
 ```
 
 <details>
-<summary>실행 결과</summary>
+<summary>cat 실행 결과</summary>
 
 ```bash
 singainnn6931@c4r2s5 1_Terminal % echo "hello world" > Test.txt 
 singainnn6931@c4r2s5 1_Terminal % cat Test.txt 
 hello world
 ```
+
 </details>
 
 
-
 ### head 명령어
-- 파일 앞부분 확인
-- 기본 10줄 출력
-  - n옵션으로 개수 조절 가능
+- 파일의 앞부분을 출력하는 명령어이다.
+- 기본적으로 처음 **10줄**을 출력한다.
 
 ```bash
-head 파일명
+head [옵션] [파일명]
 ```
+
+### 주요 옵션
+
+| 옵션 | 설명 |
+| :--- | :--- |
+| `-n` | 출력할 줄 수를 지정한다. |
+
+
+<details>
+<summary>head 실행 결과</summary>
 
 ```bash
 singainnn6931@c4r2s5 1_Terminal % head long.txt 
@@ -280,16 +383,26 @@ singainnn6931@c4r2s5 1_Terminal % head long.txt
 10
 ```
 
+</details>
+
 ### tail 명령어
-- 파일 뒷부분 확인
-- 기본 10줄 출력
-  - n옵션으로 개수 조절 가능
-- 로그 확인할 때 많이 사용
-  - `-f` 옵션으로 실시간 확인 가능
+- 파일의 마지막 부분을 출력하는 명령어이다.
+- 기본적으로 마지막 **10줄**을 출력한다.
+- 로그 확인할 때 많이 사용한다.
 
 ```bash
-tail 파일명
+tail [옵션] [파일명]
 ```
+
+### 주요 옵션
+
+| 옵션 | 설명 |
+| :--- | :--- |
+| `-n` | 출력할 줄 수를 지정한다. |
+| `-f` | 파일의 변경 사항을 실시간으로 출력한다. |
+
+<details>
+<summary>tail 실행 결과</summary>
 
 ```bash
 singainnn6931@c4r2s5 1_Terminal % tail long.txt
@@ -305,7 +418,13 @@ singainnn6931@c4r2s5 1_Terminal % tail long.txt
 200
 ```
 
-```
+</details>
+
+
+<details>
+<summary>tail -f 실행 결과</summary>
+
+```bash
 tail -f server.log
 ```
 
@@ -340,11 +459,23 @@ tail -f server.log
         200
         201
         ```
+        
+</details>
+
 
 ### less 명령어
-- 긴 파일을 페이지 단위로 출력합니다.
+- 긴 파일을 페이지 단위로 조회하는 명령어이다.
+- 파일 전체를 한 번에 출력하지 않고 필요한 만큼만 읽을 수 있어 큰 파일을 확인할 때 유용하다.
 
 ```bash
+less [파일명]
+```
+
+<details>
+<summary>less 실행 결과</summary>
+
+```bash
+singainnn6931@c4r2s5 1_Terminal % less long.txt 
 1
 2
 3
@@ -371,10 +502,14 @@ tail -f server.log
 long.txt
 ```
 
-|키|기능
-|------|---|
-|Space|다음 페이지|
-|↑ ↓|스크롤|
-|q|종료|
-|page up / down|한 페이지씩 이동|
-|home / end|끝 지점으로 이동|
+</details>
+
+### 자주 사용하는 키
+
+| 키 | 기능 |
+| :--- | :--- |
+| `Space` | 다음 페이지 |
+| `↑`, `↓` | 한 줄씩 이동 |
+| `Page Up`, `Page Down` | 한 페이지씩 이동 |
+| `Home`, `End` | 파일의 처음 또는 끝으로 이동 |
+| `q` | 종료 |
