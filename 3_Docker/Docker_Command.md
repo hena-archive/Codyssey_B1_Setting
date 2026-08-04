@@ -25,6 +25,20 @@
   - [x] docker top
   - [x] docker stats
 
+## Docker 동작 흐름
+
+```text
+Dockerfile
+            │
+            ▼
+docker build
+            │
+            ▼
+Image
+            │
+docker run
+            ▼
+Container
 
 ## 시스템 & 정보 확인 명령어
 ### 도커 버전 확인 명령어
