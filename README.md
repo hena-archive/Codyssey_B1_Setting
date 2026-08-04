@@ -14,7 +14,7 @@ Terminal, Docker, Git을 이용해 개발 환경을 직접 구축하고, 각 과
 
 ### 수행 체크리스트
 - [x] [터미널 기본 조작](1_Terminal/Terminal_Command.md)
-- [x] [권한]
+- [x] [권한](2_Permission/Permission.md)
 - [ ] [Docker]
 - [ ] [Dockerfile]
 - [ ] [포트]
