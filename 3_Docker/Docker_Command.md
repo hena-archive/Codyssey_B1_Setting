@@ -1,14 +1,18 @@
 # 도커 명령어
 - [x] 시스템 & 정보 확인
-  - [x] docker --version
+  - [x] docker version
   - [x] docker info
+
+- [x] 시스템 정리
   - [x] docker system prune
+
 - [x] 도커 이미지 명령어
   - [x] docker images 
   - [x] docker pull
   - [x] docker build
   - [x] docker rmi
   - [x] docker history
+
 - [x] 컨테이너 라이프사이클 관리
   - [x] docker run
   - [x] docker ps
@@ -16,6 +20,7 @@
   - [x] docker start
   - [x] docker restart
   - [x] docker rm
+
 - [x] 컨테이너 내부 동작 & 접속
   - [x] docker exec
   - [x] docker logs
@@ -42,10 +47,10 @@ Container
 
 ## 시스템 & 정보 확인 명령어
 ### 도커 버전 확인 명령어
-- 현재 시스템에 설치된 Docker CLI(클라이언트)의 버전을 간략하게 확인하는 가장 기본적인 명령어
-- `--`를 제거하고 사용하면 클라이언트(Client) 버전뿐만 아니라 도커 엔진 데몬(Server)의 상세 정보(API 버전, Go 버전, OS/Arch 등)까지 함께 출력
+- `docker --version` : Docker CLI(Client)의 버전만 간단하게 확인합니다.
+- `docker version` : Docker Client와 Docker Engine(Server)의 상세 정보를 함께 출력합니다.
 
-``` bash
+```bash
 docker --version
 
 docker version
@@ -490,6 +495,7 @@ root        10234       10210       0           18:00       ?           00:00:00
 ``` bash
 docker stats [옵션] [container...]
 ```
+
 ``` bash
 singainnn6931@c4r2s5 A_WebServer % docker stats --no-stream my-web
 CONTAINER ID   NAME     CPU %     MEM USAGE / LIMIT     MEM %     NET I/O         BLOCK I/O   PIDS
