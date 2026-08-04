@@ -1,19 +1,23 @@
-# 권한 체크 리스트
-- [x] 권한
-- [x] chmod 숫자
-  - 숫자
-  -  문자
-  -  `-R` 
+# 권한 기초 실습
+
+
+### 권한 체크 리스트
+- [x] 권한(Permission)
+
+- [x] `chmod`
+  - [x] 숫자 표기법
+  - [x] 문자 표기법
+  - [x] `-R` 옵션
  
-- [x] umask
+- [x] `umask`
 
-- [x] chown
+- [x] `chown`
 
-- [x] chgrp
+- [x] `chgrp`
 
-- [x] id
+- [x] `id`
 
-- [x] stat
+- [x] `stat`
 
 ### 초기 세팅
 ``` bash
@@ -31,13 +35,19 @@ drwxr-xr-x  2 singainnn6931  singainnn6931   64 Jul 30 14:09 default_directory
 -rw-r--r--  1 singainnn6931  singainnn6931    0 Jul 30 14:09 default_file
 ```
 
-## 권한
-- 사용자가 컴퓨터 시스템에서 파일, 프로그램, 장치 등의 자원을 보거나, 바꾸거나, 실행할 수 있는 허락의 단계
-- 파일 소유자 (Owner): 파일을 처음 만든 주인입니다. 내가 만든 파일이므로 그룹이나 아더에게 권한을 줄지 말지 스스로 결정할 수 있습니다.
-- 최고 관리자 (Root / Administrator): 시스템의 절대 권한자입니다. 소유자가 누구든 상관없이 모든 파일의 권한을 강제로 바꿀 수 있습니다.
+## 권한 (Permission)
+
+권한(Permission)은 **사용자가 파일이나 디렉터리에 대해 읽기(Read), 쓰기(Write), 실행(Execute) 작업을 수행할 수 있는 범위를 의미한다.**
+
+### 권한의 대상
+
+- **소유자(Owner)** : 파일 또는 디렉터리의 소유자이다. 기본적으로 생성한 사용자가 소유자가 되며, `chown` 명령어를 통해 변경할 수 있다.
+- **그룹(Group)** : 파일 또는 디렉터리에 지정된 그룹에 속한 사용자이다.
+- **기타 사용자(Other)** : 소유자와 그룹을 제외한 모든 사용자이다.
+- **최고 관리자(Root)** : 시스템의 모든 파일과 디렉터리에 대한 권한을 가지며, 소유자와 관계없이 접근 및 권한 변경이 가능하다.
 
 
-```bash
+```text
 -   rwx   rwx   rwx
 │    │     │     │
 │    │     │     └── 기타 사용자(Other)
@@ -47,26 +57,38 @@ drwxr-xr-x  2 singainnn6931  singainnn6931   64 Jul 30 14:09 default_directory
 ```
 
 ### 파일 종류
-|문자|의미|
-|--|--|
-| - |일반 파일|
-|d|디렉토리|
-|l|심볼릭 링크|
 
+`ls -l` 명령어의 첫 번째 문자는 파일의 종류를 나타낸다.
+
+| 문자 | 의미 |
+| :--: | :--- |
+| `-` | 일반 파일 (Regular File) |
+| `d` | 디렉터리 (Directory) |
+| `l` | 심볼릭 링크 (Symbolic Link) |
 
 ### 권한 종류
-|문자|의미|
-|--|--|
-| r | 읽기 |
-| w | 쓰기 |
-| x | 실행 |
-| - | 없음 |
 
-## chmod 숫자 표기법
+권한은 읽기(Read), 쓰기(Write), 실행(Execute) 권한으로 구성된다.
 
-``` bash
+| 문자 | 의미 |
+| :--: | :--- |
+| `r` | 읽기(Read) 권한 |
+| `w` | 쓰기(Write) 권한 |
+| `x` | 실행(Execute) 권한 |
+| `-` | 해당 권한 없음 |
+
+
+## `chmod` 숫자 표기법
+- 숫자(8진수)를 사용하여 파일이나 디렉터리의 권한을 변경하는 방식
+```bash
 chmod [권한(3자리 숫자)] [파일 또는 디렉터리]
 ```
+
+| 자리 | 대상 |
+| :---: | :--- |
+| 첫 번째 | 소유자(Owner) |
+| 두 번째 | 그룹(Group) |
+| 세 번째 | 기타 사용자(Other) |
 
 ### 숫자 권한 계산
 
@@ -92,52 +114,112 @@ chmod [권한(3자리 숫자)] [파일 또는 디렉터리]
 <details>
 <summary>실행 결과</summary>
 
-``` bash
-# 파일 권한 변경
-singainnn6931@c4r2s5 2_Permission % chmod 777 default_file
+### 파일 권한 변경 전
 
-singainnn6931@c4r2s5 2_Permission % ls -l 
-total 8
--rw-r--r--  1 singainnn6931  singainnn6931  568 Jul 30 14:10 Permission_Command.md
-drwxr-xr-x  2 singainnn6931  singainnn6931   64 Jul 30 14:09 default_directory
--rwxrwxrwx  1 singainnn6931  singainnn6931    0 Jul 30 14:09 default_file
-
-# 디렉토리 권한 변경
-singainnn6931@c4r2s5 2_Permission % chmod 000 default_directory
-
-singainnn6931@c4r2s5 2_Permission % ls -l
-total 8
--rw-r--r--  1 singainnn6931  singainnn6931  568 Jul 30 14:10 Permission_Command.md
-d---------  2 singainnn6931  singainnn6931   64 Jul 30 14:09 default_directory
--rwxrwxrwx  1 singainnn6931  singainnn6931    0 Jul 30 14:09 default_file
+```bash
+singainnn6931@c4r2s5 2_Permission % ls -l default_file
+-rw-r--r-- 1 singainnn6931 singainnn6931 0 Jul 30 14:09 default_file
 ```
+
+### 파일 권한 권한 변경
+
+```bash
+singainnn6931@c4r2s5 2_Permission % chmod 777 default_file
+```
+
+### 파일 권한 변경 후
+
+```bash
+singainnn6931@c4r2s5 2_Permission % ls -l default_file
+-rwxrwxrwx 1 singainnn6931 singainnn6931 0 Jul 30 14:09 default_file
+```
+
+---
+
+### 디렉터리 권한 변경 전
+
+```bash
+singainnn6931@c4r2s5 2_Permission % ls -ld default_directory
+drwxr-xr-x 2 singainnn6931 singainnn6931 64 Jul 30 14:09 default_directory
+```
+
+### 디렉터리 권한 변경
+
+```bash
+singainnn6931@c4r2s5 2_Permission % chmod 000 default_directory
+```
+
+### 디렉터리 변경 후
+
+```bash
+singainnn6931@c4r2s5 2_Permission % ls -ld default_directory
+d--------- 2 singainnn6931 singainnn6931 64 Jul 30 14:09 default_directory
+```
+
 </details>
 
-## chmod 문자 표기법
-- u(owner)
-- g(group)
-- o(other)
+
+## `chmod` 문자 표기법
+- 문자(Symbolic Mode)를 사용하여 특정 사용자에게 권한을 추가하거나 제거하는 방식
 
 ``` bash
-chmod 그룹종류 + or - 권한 파일이름
+chmod [대상][연산자][권한] [파일 또는 디렉터리]
 ```
 
-``` bash
+### 대상
+
+| 문자 | 의미 |
+| :---: | :--- |
+| `u` | 소유자(Owner) |
+| `g` | 그룹(Group) |
+| `o` | 기타 사용자(Other) |
+| `a` | 모든 사용자(All = `u` + `g` + `o`) |
+
+### 연산자
+
+| 기호 | 의미 |
+| :---: | :--- |
+| `+` | 권한 추가 |
+| `-` | 권한 제거 |
+| `=` | 기존 권한을 지정한 권한으로 설정 |
+
+### 권한
+
+| 문자 | 의미 |
+| :---: | :--- |
+| `r` | 읽기(Read) |
+| `w` | 쓰기(Write) |
+| `x` | 실행(Execute) |
+
+<details>
+<summary>실행 결과</summary>
+
+### 변경 전
+
+```bash
 singainnn6931@c4r2s5 2_Permission % ls -l
 total 8
 -rw-r--r--  1 singainnn6931  singainnn6931  1643 Jul 30 14:21 Permission_Command.md
 d---------  2 singainnn6931  singainnn6931    64 Jul 30 14:09 default_directory
 -rwxrwxrwx  1 singainnn6931  singainnn6931     0 Jul 30 14:09 default_file
+```
 
-# 디렉토리의 유저 권한 read, write, excute 권한 부여
-singainnn6931@c4r2s5 2_Permission % chmod u+rwx default_directory 
+### 권한 변경
 
-# 파일의 그룹 권한 read, write, excute 권한 제거
+```bash
+# 디렉터리의 소유자에게 읽기, 쓰기, 실행 권한 추가
+singainnn6931@c4r2s5 2_Permission % chmod u+rwx default_directory
+
+# 파일의 그룹 권한 제거
 singainnn6931@c4r2s5 2_Permission % chmod g-rwx default_file
 
-# 파일의 기타 사용자 권한 read, excute 권한 제거
+# 파일의 기타 사용자 읽기 및 실행 권한 제거
 singainnn6931@c4r2s5 2_Permission % chmod o-rx default_file
+```
 
+### 변경 후
+
+```bash
 singainnn6931@c4r2s5 2_Permission % ls -l
 total 8
 -rw-r--r--  1 singainnn6931  singainnn6931  1643 Jul 30 14:21 Permission_Command.md
@@ -145,29 +227,43 @@ drwx------  2 singainnn6931  singainnn6931    64 Jul 30 14:09 default_directory
 -rwx----w-  1 singainnn6931  singainnn6931     0 Jul 30 14:09 default_file
 ```
 
+</details>
+
 ## chmod -R
-- 하위 디렉토리 파일들도 바뀜
-``` bash
-singainnn6931@c4r2s5 2_Permission % sudo chmod -R 000 default_directory
-Password:
-Sorry, try again.
-Password:
-singainnn6931 is not in the sudoers file.
-This incident has been reported to the administrator.
-singainnn6931@c4r2s5 2_Permission % sudo chmod -R 777 default_directory
-Password:
-sudo: a password is required
-singainnn6931@c4r2s5 2_Permission % chmod -R 777 default_directory 
-singainnn6931@c4r2s5 2_Permission % cd default_
-cd: no such file or directory: default_
-singainnn6931@c4r2s5 2_Permission % cd default_directory 
-singainnn6931@c4r2s5 default_directory % ls
-testdir		testfile
-singainnn6931@c4r2s5 default_directory % ls -l
+- `-R`(Recursive) 옵션은 **디렉터리와 그 안의 모든 하위 디렉터리 및 파일의 권한을 재귀적으로 변경**한다
+
+```bash
+chmod -R [권한] [디렉터리]
+```
+
+<details>
+<summary>실행 결과</summary>
+
+### 변경 전
+
+```bash
+singainnn6931@c4r2s5 2_Permission % ls -l default_directory
+total 0
+drwxr-xr-x  2 singainnn6931  singainnn6931  64 Jul 30 14:34 testdir
+-rw-r--r--  1 singainnn6931  singainnn6931   0 Jul 30 14:34 testfile
+```
+
+### 권한 변경
+
+```bash
+singainnn6931@c4r2s5 2_Permission % chmod -R 777 default_directory
+```
+
+### 변경 후
+
+```bash
+singainnn6931@c4r2s5 2_Permission % ls -l default_directory
 total 0
 drwxrwxrwx  2 singainnn6931  singainnn6931  64 Jul 30 14:34 testdir
 -rwxrwxrwx  1 singainnn6931  singainnn6931   0 Jul 30 14:34 testfile
 ```
+
+</details>
 
 ## umask
 - "User Mask"의 줄임말로, 리눅스 및 유닉스 시스템에서 새로운 파일이나 디렉토리가 생성될 때 기본 권한(Permission)을 결정(제한)하는 값입니다.
@@ -183,12 +279,13 @@ drwxrwxrwx  2 singainnn6931  singainnn6931  64 Jul 30 14:34 testdir
 ```
 
 ## chown
-- 파일이나 디렉토리의 소유자를 변경하며, 필요시 소유 그룹까지 한 번에 변경할 수 있어 가장 자주 사용됩니다.
+- 파일이나 디렉터리의 **소유자(Owner)** 또는 **소유 그룹(Group)**을 변경하는 명령어이다.
 리눅스 시스템은 보안을 위해 새로 만드는 파일과 디렉토리에 대해 최대 기본 권한(부모 권한)을 정해두고 있습니다.
 
 ``` bash
 chown [옵션] [새 소유자]:[새 그룹] [파일/디렉토리명]
 ```
+
 ``` bash
 # 1. 소유자만 변경
 sudo chown alice script.sh
@@ -259,16 +356,3 @@ singainnn6931@c4r2s5 2_Permission % stat default_file
 |그룹(Group)|파일 소유 그룹|
 |크기(Size)|파일 크기(Byte)|
 |시간(Time)|생성, 수정, 접근 시간|
-
-## Error
-### 문제 상황
-```bash
-chmod -R 000 default_directory
-```
-- 실행 시 Permission denied 발생
-
-### 원인
-디렉터리에 접근 권한이 없어 권한 변경 명령을 수행할 수 없었다.
-
-### 해결
-디렉터리 권한을 복구한 후 다시 chmod를 수행하였다.
