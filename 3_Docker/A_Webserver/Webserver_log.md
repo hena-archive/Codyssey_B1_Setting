@@ -161,3 +161,27 @@ docker inspect webserver
 | **호스트에서 직접 확인** | macOS에서는 직접 확인 불가능 | 가능 (`ls`, `cat`, Finder 등) |
 | **Docker가 관리** | O | X |
 | **주 용도** | 데이터 영속성(Persistence), 운영 환경 | 개발 환경, 파일 공유 |
+
+``` bash
+singainnn6931@c4r2s5 A_Webserver % curl http://localhost:8088
+<!DOCTYPE html>
+<html>
+<head>
+    <title>bind mount</title>
+</head>
+<body>
+    <p>test</p>
+</body>
+</html>
+
+singainnn6931@c4r2s5 A_Webserver % curl http://localhost:9000
+<!DOCTYPE html>
+<html>
+<head>
+    <title>bind mount</title>
+</head>
+<body>
+    <p>after</p>
+</body>
+</html>
+```
